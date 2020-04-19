@@ -1,8 +1,8 @@
-import Test.Hspec
-import Control.Exception (evaluate)
+import           Control.Exception (evaluate)
+import           Test.Hspec
 
-import SchemaLib
-import Sheet
+import           SchemaLib
+import           Sheet
 
 exampleList :: [String]
 exampleList = [
@@ -30,7 +30,7 @@ example1 = [
   ""]
 
 example1String :: String
-example1String = unlines example1 
+example1String = unlines example1
 
 sheet1 :: Sheet
 sheet1 = Sheet { mbHeadline = Just ["Sentient", "count"]
@@ -70,7 +70,7 @@ main = hspec $ do
 
   describe "SchemaLib.readSheet" $ do
     it "on two good row should be the sum number" $ do
-      (readSheet example1String) `shouldBe` sheet1 
+      (readSheet example1String) `shouldBe` sheet1
 
 
 

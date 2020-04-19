@@ -1,11 +1,11 @@
 module SchemaLib
 where
 
-import Data.Char
-import Data.List
-import Data.List.Split
-import Data.Maybe
-import Text.Read
+import           Data.Char
+import           Data.List
+import           Data.List.Split
+import           Data.Maybe
+import           Text.Read
 
 -------------------------------------- Types -----------------------------------
 
@@ -33,16 +33,23 @@ fieldsToCsvLine =  intercalate ","
 
 -- | make every line in Sheet the same width
 makeLineGivenWidth :: Int -> Fields -> Fields
-makeLineGivenWidth width fields 
+makeLineGivenWidth width fields
   | (length fields) > width = take width fields
   | otherwise = fields ++ (replicate (width - (length fields)) "")
 
+-------------------------------------- Extract ---------------------------------
+
+mbDoubleList :: Fields -> Maybe [Double]
+mbDoubleList fields = sequence $ map (readMaybe :: String -> Maybe Double) fields
+
+mbIntList :: Fields -> Maybe [Int]
+mbIntList fields = sequence $ map (readMaybe :: String -> Maybe Int) fields
 
 -------------------------------------- Calculate -------------------------------
 
 extractSecondNumber :: (Read a) => Fields -> Maybe a
 extractSecondNumber (_ : second : []) = readMaybe second
-extractSecondNumber _  = Nothing
+extractSecondNumber _                 = Nothing
 
 calcSumOfLines :: Cells -> Double
 calcSumOfLines lines = res
@@ -58,7 +65,7 @@ parseLine line = removeEmptyEnds full
     where
         full = [trim field | field <- splitLine line]
 
-lineToCsvLine :: String -> String 
+lineToCsvLine :: String -> String
 lineToCsvLine line = fieldsToCsvLine $ parseLine line
 
 isGoodLine :: Fields -> Bool
@@ -69,9 +76,9 @@ filterBadLines = filter isGoodLine
 
 
 textToLines :: MulitLine -> Cells
-textToLines text = goodLines 
-    where 
-        stringLines = lines text 
+textToLines text = goodLines
+    where
+        stringLines = lines text
         textLines = map parseLine stringLines
         goodLines = filterBadLines textLines
 

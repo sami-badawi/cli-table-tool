@@ -1,21 +1,21 @@
 module Sheet
 where
 
-import Data.Char
-import Data.List
-import Data.List.Split
-import Data.Maybe
-import Text.Read
+import           Data.Char
+import           Data.List
+import           Data.List.Split
+import           Data.Maybe
+import           Text.Read
 
-import SchemaLib
+import           SchemaLib
 
 -------------------------------------- Types -----------------------------------
 
 -- | Sheet is collection of features that would have been in an object in OOP
 data Sheet = Sheet {
-  mbHeadline :: Maybe Fields -- ^ some sheets has a headline some do not
-, sheetWidth :: Int -- ^ there is a standard width
-, cells :: Cells -- ^ 2D grid of Strings not assumed to have good lenght
+  mbHeadline  :: Maybe Fields -- ^ some sheets has a headline some do not
+, sheetWidth  :: Int -- ^ there is a standard width
+, cells       :: Cells -- ^ 2D grid of Strings not assumed to have good lenght
 , columnTypes :: [ColumnType] -- ^ What is the type of the columns
 } deriving (Eq, Show)
 
@@ -37,14 +37,14 @@ readSheet text = sheet
 
 -- | make every line in Sheet the same width
 makeSameWidth :: Sheet -> Int -> Sheet
-makeSameWidth sheet width = res 
+makeSameWidth sheet width = res
   where
     fixLine = makeLineGivenWidth width
     fixedLines = [ fixLine line | line <- (cells sheet) ]
     res = sheet {cells = fixedLines, sheetWidth = width}
 
 -- | unabitious first
-refineSheet :: Sheet -> Sheet 
+refineSheet :: Sheet -> Sheet
 refineSheet sheet = res
   where
     res = sheet
