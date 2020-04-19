@@ -1,0 +1,60 @@
+cabal-version: 1.12
+
+-- This file has been generated from package.yaml by hpack version 0.31.2.
+--
+-- see: https://github.com/sol/hpack
+--
+-- hash: 92b2caefe71a441b7f68a8594f938f1a96c56f1a9f3109fc60f4338ed2c2f6e8
+
+name:           cli-table-tool
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/githubuser/cli-table-tool#readme>
+homepage:       https://github.com/sami-badawi/cli-table-tool#readme
+bug-reports:    https://github.com/sami-badawi/cli-table-tool/issues
+author:         Sami Badawi
+maintainer:     sami.badawi@gmail.com
+copyright:      2020 Sami Badawi
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    README.md
+    ChangeLog.md
+
+source-repository head
+  type: git
+  location: https://github.com/sami-badawi/cli-table-tool
+
+library
+  exposed-modules:
+      SchemaLib 
+    , Sheet
+  hs-source-dirs:
+      src
+  build-depends:
+      base >=4.7 && <5
+    , split
+    , text
+  default-language: Haskell2010
+
+executable cli-table-tool
+  main-is: Main.hs
+  hs-source-dirs:
+      app
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , cli-table-tool
+  default-language: Haskell2010
+
+test-suite cli-table-tool-test
+  type: exitcode-stdio-1.0
+  main-is: Spec.hs
+  hs-source-dirs:
+      test
+  ghc-options: -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      base >=4.7 && <5
+    , cli-table-tool
+    , hspec
+ default-language: Haskell2010
