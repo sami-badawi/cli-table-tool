@@ -4,3 +4,4 @@ stack.yaml.lock
 data/*
 !data/fixed_width.txt
 doc/*.html
+doc/.#*

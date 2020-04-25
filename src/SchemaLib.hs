@@ -14,7 +14,7 @@ type TextLine = String
 type Fields = [String]
 type Cells = [Fields]
 
-data ColumnType = EmptyType | StringType | DoubleType | IntType  deriving (Bounded, Enum, Eq, Ord, Show)
+data ColumnType = EmptyType [()] | StringType Fields | DoubleType [Double] | IntType [Int] deriving (Eq, Show)
 
 -------------------------------------- Text Util -------------------------------
 

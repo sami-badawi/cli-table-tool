@@ -11,3 +11,6 @@ Right now it can be either string, int or double.
 
 How can I represent this since Haskell is not super good at dynamic constructs?
 
+I could have that my enum types are parametric.
+
+

@@ -1,6 +1,7 @@
 module Sheet
 where
 
+import           Control.Applicative
 import           Data.Char
 import           Data.List
 import           Data.List.Split
@@ -28,10 +29,12 @@ readSheet text = sheet
     goodLines = textToLines text
     sheetWidth1 = maximum [ length line | line <- goodLines]
     mbHeadline = listToMaybe goodLines
-    columnTypes = replicate sheetWidth1 StringType
+    cells = drop 1 goodLines
+    columns = transpose cells
+    columnTypes = map StringType columns -- first just use the lest specific
     sheet = Sheet { mbHeadline = mbHeadline
     , sheetWidth = sheetWidth1
-    , cells = drop 1 goodLines
+    , cells = cells
     , columnTypes = columnTypes}
 
 
@@ -42,6 +45,15 @@ makeSameWidth sheet width = res
     fixLine = makeLineGivenWidth width
     fixedLines = [ fixLine line | line <- (cells sheet) ]
     res = sheet {cells = fixedLines, sheetWidth = width}
+
+refineColumn :: Fields -> ColumnType
+refineColumn fields = res
+  where
+    resInt = mbIntList fields
+    resDouble = mbDoubleList fields
+    mbRes :: Maybe ColumnType
+    mbRes = (IntType <$> resInt) <|> (DoubleType <$> resDouble)
+    res = fromMaybe (StringType fields) mbRes
 
 -- | unabitious first
 refineSheet :: Sheet -> Sheet
