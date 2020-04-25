@@ -1,0 +1,13 @@
+#+OPTIONS: ^:nil
+* Problem analysis
+  
+* How to store potential columns 
+
+So a column could be having different types.
+
+Right now it can be either string, int or double.
+
+** Representing different types
+
+How can I represent this since Haskell is not super good at dynamic constructs?
+
