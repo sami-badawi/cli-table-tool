@@ -110,12 +110,15 @@ addPercentColumns :: Sheet -> Sheet
 addPercentColumns sheet = res
   where
     columns = columnTypes sheet
+    mbCurrentHeaders = mbHeadline sheet
     mbNewColumns = map calcPercentColumn columns
     newColumns = catMaybes mbNewColumns
+    newHeaders = replicate (length newColumns) "percent"
+    allHeaders = (++ newHeaders) <$> mbCurrentHeaders
     allColumns = columns ++ newColumns
     res = if null newColumns
       then sheet
-      else sheet {cells = (columnTypesToCells allColumns)}
+      else sheet {cells = (columnTypesToCells allColumns), mbHeadline = allHeaders}
 
 
 -------------------------------------- Main ------------------------------------
