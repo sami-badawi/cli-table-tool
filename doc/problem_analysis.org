@@ -1,7 +1,7 @@
 #+OPTIONS: ^:nil
 * Problem analysis
   
-* TODO How to store potential columns [1/1][100%]
+* How to store potential columns [1/1][100%]
 
 So a column could be having different types.
 
@@ -17,7 +17,7 @@ I could have that my enum types are parametric.
 I had to give the seperate types since the inner types are different.
 
 
-* TODO Extending program with option [2/4][50%]
+* Extending program with option [3/5][60%]
 
 ** DONE Adding options parsing
    CLOSED: [2020-04-26 Sun 09:41]
@@ -35,7 +35,8 @@ I think that I can do this with a zip.
 
 Where should this live?
 
-** TODO Different code modes 
+** DONE Different code modes 
+   CLOSED: [2020-04-26 Sun 13:42]
 
   - Scala
   - Put everything in quotes I could have an --all option
@@ -45,6 +46,24 @@ Where should this live?
   I could also have code taking options like Scala, "all"
 
 ** TODO Option to do percentage for all numerical
+
+    How should I do this?
+
+    Maybe I should calculate a sum.
+
+    I think that I should have a operation that can handle all.
+
+    Maybe it should give result maybe as a column of int.
+
+    So it is possible that I would do another transpose.
+
+    Maybe start by assuming that there is only one.
+
+    How should it combine with other modes?
+
+    Probably ignore in first go.
+
+
 
 ** TODO Option to do percentage for one
 
@@ -67,5 +86,11 @@ I like the applicative parser that I was using. But maybe I do not need somethin
 ** What do I do with result
 
 So I think that I would like to take the result and put it into a config object.
+
+* Misc
+
+** Refactor ColumnType to better names
+
+
 
 

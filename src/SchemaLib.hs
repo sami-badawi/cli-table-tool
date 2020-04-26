@@ -21,9 +21,9 @@ data ColumnType = EmptyType [()] | StringType Fields | DoubleType [Double] | Int
 data Config = Config
   {
     filename :: Field -- ^ filename
-  , code :: Bool -- ^ output as code
-  , quote :: Bool -- ^ quote all
-  , percent :: Bool -- ^ calculate percent of numerical fields
+  , code     :: Bool -- ^ output as code
+  , quote    :: Bool -- ^ quote all
+  , percent  :: Bool -- ^ calculate percent of numerical fields
   } deriving (Show)
 
 -------------------------------------- Text Util -------------------------------

@@ -103,5 +103,5 @@ handleText text conf = res
       then toCode sheet
       else if allQuoteMode
         then toQuotedCsv sheet
-        else toCsv sheet 
+        else toCsv sheet
 
