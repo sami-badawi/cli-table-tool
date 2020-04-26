@@ -28,8 +28,7 @@ readSheet text = sheet
     mbHeadlineF = listToMaybe goodLines
     cellsF = drop 1 goodLines
     columns = transpose cellsF
-    -- columnTypesF = map StringType columns -- first just use the lest specific
-    columnTypesF = map refineColumn columns -- first just use the lest specific
+    columnTypesF = map refineColumn columns 
     sheet = Sheet { mbHeadline = mbHeadlineF
     , sheetWidth = sheetWidth1
     , cells = cellsF
@@ -90,6 +89,34 @@ toQuotedCsv sheet = res
       allQuotedLines = map quoteLine allLines
       parsedLines = map fieldsToCsvLine allQuotedLines
       res = unlines parsedLines
+-------------------------------------- Percent calculation ---------------------
+
+columnToFields :: ColumnType -> Fields
+columnToFields (DoubleType fields) = map show fields
+columnToFields (EmptyType fields) = map show fields
+columnToFields (IntType fields) = map show fields
+columnToFields (StringType fields) = fields
+
+
+
+columnTypesToCells :: [ColumnType] -> Cells
+columnTypesToCells columns = res
+  where
+    columnOfStrings = map columnToFields columns 
+    res = transpose columnOfStrings
+
+
+addPercentColumns :: Sheet -> Sheet
+addPercentColumns sheet = res
+  where
+    columns = columnTypes sheet
+    mbNewColumns = map calcPercentColumn columns
+    newColumns = catMaybes mbNewColumns
+    allColumns = columns ++ newColumns
+    res = if null newColumns
+      then sheet
+      else sheet {cells = (columnTypesToCells allColumns)}
+
 
 -------------------------------------- Main ------------------------------------
 
@@ -98,10 +125,14 @@ handleText text conf = res
   where
     sheet = readSheet text
     codeMode = code conf
+    percentMode = percent conf
     allQuoteMode = quote conf
+    augmentedSheet = if percentMode
+      then addPercentColumns sheet
+      else sheet
     res = if codeMode
-      then toCode sheet
+      then toCode augmentedSheet 
       else if allQuoteMode
-        then toQuotedCsv sheet
-        else toCsv sheet
+        then toQuotedCsv augmentedSheet 
+        else toCsv augmentedSheet 
 

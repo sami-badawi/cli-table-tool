@@ -63,6 +63,13 @@ Where should this live?
 
     Probably ignore in first go.
 
+    - So maybe just look for integer and double and calculate sum
+    - Then make a new that is percentage
+    - So have a function that returns a maybe column
+    - Add to list of columns
+    - Do transpose and come up with new sheet
+    - Where should this live?
+    - They are small so this could be a helper
 
 
 ** TODO Option to do percentage for one

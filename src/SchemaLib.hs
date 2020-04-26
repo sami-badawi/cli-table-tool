@@ -10,20 +10,20 @@ import           Text.Read
 
 -------------------------------------- Types -----------------------------------
 
-type Field = String -- ^ might change to Text
-type MulitLine = Field
-type TextLine = Field
-type Fields = [String]
-type Cells = [Fields]
+type Field = String    -- ^ one field / cell in table. Might change to Text
+type MulitLine = Field -- ^ All the text
+type TextLine = Field  -- ^ One line of input
+type Fields = [String] -- ^ One line or column
+type Cells = [Fields]  -- ^ The whole table
 
 data ColumnType = EmptyType [()] | StringType Fields | DoubleType [Double] | IntType [Int] deriving (Eq, Show)
 
 data Config = Config
   {
     filename :: Field -- ^ filename
-  , code     :: Bool -- ^ output as code
-  , quote    :: Bool -- ^ quote all
-  , percent  :: Bool -- ^ calculate percent of numerical fields
+  , code     :: Bool  -- ^ output as code
+  , quote    :: Bool  -- ^ quote all
+  , percent  :: Bool  -- ^ calculate percent of numerical fields
   } deriving (Show)
 
 -------------------------------------- Text Util -------------------------------
@@ -53,23 +53,36 @@ quoteCell field = "\"" ++ field ++ "\""
 -------------------------------------- Extract ---------------------------------
 
 mbDoubleList :: Fields -> Maybe [Double]
-mbDoubleList fields = sequence $ map (readMaybe :: Field -> Maybe Double) fields
+mbDoubleList = mapM (readMaybe :: Field -> Maybe Double)
 
 mbIntList :: Fields -> Maybe [Int]
-mbIntList fields = sequence $ map (readMaybe :: Field -> Maybe Int) fields
+mbIntList = mapM (readMaybe :: Field -> Maybe Int) 
 
--------------------------------------- Calculate -------------------------------
+-------------------------------------- Calculate old ---------------------------
 
 extractSecondNumber :: (Read a) => Fields -> Maybe a
 extractSecondNumber (_ : second : []) = readMaybe second
 extractSecondNumber _                 = Nothing
 
 calcSumOfLines :: Cells -> Double
-calcSumOfLines lines = res
+calcSumOfLines linesAsCells = res
     where
-      maybeNumber = [(extractSecondNumber line) | line <- lines]
+      maybeNumber = [(extractSecondNumber line) | line <- linesAsCells]
       numbers = catMaybes maybeNumber
       res = sum numbers
+-------------------------------------- Calculate -------------------------------
+
+calcPercentColumn :: ColumnType -> Maybe ColumnType
+calcPercentColumn (IntType integerColumn) = Just $ IntType percentColumn
+    where
+      intSum = sum integerColumn
+      percentColumn :: [Int]
+      percentColumn = [div (100 * cell) intSum | cell <- integerColumn ]
+calcPercentColumn (DoubleType doubleColumn) = Just $ DoubleType percentColumn
+    where
+      doubleSum = sum doubleColumn 
+      percentColumn = [100.0 * cell /doubleSum | cell <- doubleColumn ]
+calcPercentColumn _ = Nothing 
 
 -------------------------------------- Parse -----------------------------------
 
