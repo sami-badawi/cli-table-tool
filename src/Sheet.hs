@@ -2,11 +2,8 @@ module Sheet
 where
 
 import           Control.Applicative
-import           Data.Char
 import           Data.List
-import           Data.List.Split
 import           Data.Maybe
-import           Text.Read
 
 import           SchemaLib
 
@@ -73,12 +70,12 @@ toCode :: Sheet -> MulitLine
 toCode sheet = res
     where
       isQuoteColumnType (StringType _) = True
-      isQuoteColumnType  _ = False
+      isQuoteColumnType  _             = False
       quoteField = map isQuoteColumnType $ columnTypes sheet
       quoteLine fields = processedFields
         where
           zippedLine = zip fields quoteField
-          quotePair (field, True) = "\"" ++ field ++ "\""
+          quotePair (field, True)  = quoteCell field
           quotePair (field, False) = field
           processedFields = map quotePair zippedLine
       allLines = (maybeToList (mbHeadline sheet)) ++ (map quoteLine (cells sheet))
@@ -92,6 +89,6 @@ handleText text conf = res
   where
     sheet = readSheet text
     res = if code conf
-      then toCsv sheet
-      else toCode sheet
+      then toCode sheet
+      else toCsv sheet
 

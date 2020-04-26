@@ -10,8 +10,9 @@ import           Text.Read
 
 -------------------------------------- Types -----------------------------------
 
-type MulitLine = String
-type TextLine = String
+type Field = String -- ^ might change to Text
+type MulitLine = Field
+type TextLine = Field
 type Fields = [String]
 type Cells = [Fields]
 
@@ -19,14 +20,15 @@ data ColumnType = EmptyType [()] | StringType Fields | DoubleType [Double] | Int
 
 data Config = Config
   {
-    filename :: String -- ^ filename
+    filename :: Field -- ^ filename
   , code :: Bool -- ^ output as code
+  , quote :: Bool -- ^ quote all
   , percent :: Bool -- ^ calculate percent of numerical fields
-  }
+  } deriving (Show)
 
 -------------------------------------- Text Util -------------------------------
 
-trim :: String -> String
+trim :: Field -> Field
 trim = dropWhileEnd isSpace . dropWhile isSpace
 
 splitLine :: TextLine -> Fields
@@ -45,13 +47,16 @@ makeLineGivenWidth width fields
   | (length fields) > width = take width fields
   | otherwise = fields ++ (replicate (width - (length fields)) "")
 
+quoteCell :: Field -> Field
+quoteCell field = "\"" ++ field ++ "\""
+
 -------------------------------------- Extract ---------------------------------
 
 mbDoubleList :: Fields -> Maybe [Double]
-mbDoubleList fields = sequence $ map (readMaybe :: String -> Maybe Double) fields
+mbDoubleList fields = sequence $ map (readMaybe :: Field -> Maybe Double) fields
 
 mbIntList :: Fields -> Maybe [Int]
-mbIntList fields = sequence $ map (readMaybe :: String -> Maybe Int) fields
+mbIntList fields = sequence $ map (readMaybe :: Field -> Maybe Int) fields
 
 -------------------------------------- Calculate -------------------------------
 
@@ -73,7 +78,7 @@ parseLine line = removeEmptyEnds full
     where
         full = [trim field | field <- splitLine line]
 
-lineToCsvLine :: String -> String
+lineToCsvLine :: Field -> Field
 lineToCsvLine line = fieldsToCsvLine $ parseLine line
 
 isGoodLine :: Fields -> Bool
@@ -104,6 +109,10 @@ sample = Config
          ( short 'c'
         <> long "code"
         <> help "Output for code" )
+     <*> switch
+         ( short 'q'
+        <> long "quote"
+        <> help "quote all in output" )
      <*> switch
          ( short 'p'
         <> long "percent"

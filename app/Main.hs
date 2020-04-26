@@ -9,6 +9,7 @@ import Sheet
 main :: IO ()
 main = do
     options <- execParser opts
+    print options
     contents <- readFile $ filename options
     putStrLn contents
     putStrLn $ handleText contents options

@@ -17,12 +17,13 @@ I could have that my enum types are parametric.
 I had to give the seperate types since the inner types are different.
 
 
-* TODO Extending program with option [1/4][25%]
+* TODO Extending program with option [2/4][50%]
 
 ** DONE Adding options parsing
    CLOSED: [2020-04-26 Sun 09:41]
 
-** TODO Output to programmer mode
+** DONE Output to programmer mode
+   CLOSED: [2020-04-26 Sun 12:16]
 
 How do I program this?
 
@@ -34,12 +35,21 @@ I think that I can do this with a zip.
 
 Where should this live?
 
+** TODO Different code modes 
+
+  - Scala
+  - Put everything in quotes I could have an --all option
+
+  I could have different options and somewhat randomly use one before the other.
+
+  I could also have code taking options like Scala, "all"
 
 ** TODO Option to do percentage for all numerical
 
 ** TODO Option to do percentage for one
 
-* Needed option 
+* DONE Needed option 
+  CLOSED: [2020-04-26 Sun 12:15]
 
 I think that what I need is pretty simple.
 
@@ -47,7 +57,8 @@ I think that what I need is pretty simple.
   - -p for percentage
   - -a for percentage all
 
-* Option parsing
+* DONE Option parsing
+  CLOSED: [2020-04-26 Sun 12:15]
 
 ** What parser should I use
 
