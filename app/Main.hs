@@ -1,19 +1,14 @@
 module Main where
 
-import System.Environment (getArgs)
+import           Options.Applicative
 
 import SchemaLib
 import Sheet
 
-getFirstOrDefault :: [String] -> String
-getFirstOrDefault (filename : _rest) = filename
-getFirstOrDefault [] = "data/fixed_width.txt"
-
-
 
 main :: IO ()
 main = do
-    args <- getArgs
-    contents <- readFile $ getFirstOrDefault args
+    options <- execParser opts
+    contents <- readFile $ filename options
     putStrLn contents
-    putStrLn $ handleText contents
+    putStrLn $ handleText contents options

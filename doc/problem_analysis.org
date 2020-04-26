@@ -7,7 +7,7 @@ So a column could be having different types.
 
 Right now it can be either string, int or double.
 
-** DONE [ ] Representing different types
+** DONE Representing different types
    CLOSED: [2020-04-25 Sat 21:59]
 
 How can I represent this since Haskell is not super good at dynamic constructs?
@@ -17,13 +17,23 @@ I could have that my enum types are parametric.
 I had to give the seperate types since the inner types are different.
 
 
-* TODO Extending program with option [0/4][0%]
+* TODO Extending program with option [1/4][25%]
 
-** TODO Adding options parsing
-
-What shou
+** DONE Adding options parsing
+   CLOSED: [2020-04-26 Sun 09:41]
 
 ** TODO Output to programmer mode
+
+How do I program this?
+
+I could just take the input and based on the type of the column put quotes around.
+
+So for now only string type should get quotes.
+
+I think that I can do this with a zip.
+
+Where should this live?
+
 
 ** TODO Option to do percentage for all numerical
 
@@ -39,6 +49,12 @@ I think that what I need is pretty simple.
 
 * Option parsing
 
+** What parser should I use
+
 I like the applicative parser that I was using. But maybe I do not need something this fancy.
+
+** What do I do with result
+
+So I think that I would like to take the result and put it into a config object.
 
 

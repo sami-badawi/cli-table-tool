@@ -35,6 +35,7 @@ library
       base >=4.7 && <5
     , split
     , text
+    , optparse-applicative
   default-language: Haskell2010
 
 executable cli-table-tool
@@ -45,6 +46,7 @@ executable cli-table-tool
   build-depends:
       base >=4.7 && <5
     , cli-table-tool
+    , optparse-applicative
   default-language: Haskell2010
 
 test-suite cli-table-tool-test

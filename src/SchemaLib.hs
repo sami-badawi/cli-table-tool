@@ -5,6 +5,7 @@ import           Data.Char
 import           Data.List
 import           Data.List.Split
 import           Data.Maybe
+import           Options.Applicative
 import           Text.Read
 
 -------------------------------------- Types -----------------------------------
@@ -15,6 +16,13 @@ type Fields = [String]
 type Cells = [Fields]
 
 data ColumnType = EmptyType [()] | StringType Fields | DoubleType [Double] | IntType [Int] deriving (Eq, Show)
+
+data Config = Config
+  {
+    filename :: String -- ^ filename
+  , code :: Bool -- ^ output as code
+  , percent :: Bool -- ^ calculate percent of numerical fields
+  }
 
 -------------------------------------- Text Util -------------------------------
 
@@ -82,3 +90,27 @@ textToLines text = goodLines
         textLines = map parseLine stringLines
         goodLines = filterBadLines textLines
 
+
+-------------------------------------- Commandline -----------------------------
+
+sample :: Parser Config
+sample = Config
+     <$> strOption
+         ( short 'i'
+        <> long "input"
+        <> metavar "INPUT"
+        <> help "Filename to read" )
+     <*> switch
+         ( short 'c'
+        <> long "code"
+        <> help "Output for code" )
+     <*> switch
+         ( short 'p'
+        <> long "percent"
+        <> help "Output percentage for numerical column as seperate column" )
+
+opts :: ParserInfo Config
+opts = info (sample <**> helper)
+  ( fullDesc
+  <> progDesc "Extract from a fix width table and turn it into csv possibly for code"
+  <> header "cli-table-tool - Haskell based table extractor util" )

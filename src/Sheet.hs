@@ -28,14 +28,15 @@ readSheet text = sheet
   where
     goodLines = textToLines text
     sheetWidth1 = maximum [ length line | line <- goodLines]
-    mbHeadline = listToMaybe goodLines
-    cells = drop 1 goodLines
-    columns = transpose cells
-    columnTypes = map StringType columns -- first just use the lest specific
-    sheet = Sheet { mbHeadline = mbHeadline
+    mbHeadlineF = listToMaybe goodLines
+    cellsF = drop 1 goodLines
+    columns = transpose cellsF
+    -- columnTypesF = map StringType columns -- first just use the lest specific
+    columnTypesF = map refineColumn columns -- first just use the lest specific
+    sheet = Sheet { mbHeadline = mbHeadlineF
     , sheetWidth = sheetWidth1
-    , cells = cells
-    , columnTypes = columnTypes}
+    , cells = cellsF
+    , columnTypes = columnTypesF}
 
 
 -- | make every line in Sheet the same width
@@ -68,11 +69,29 @@ toCsv sheet = res
       parsedLines = map fieldsToCsvLine allLines
       res = unlines parsedLines
 
+toCode :: Sheet -> MulitLine
+toCode sheet = res
+    where
+      isQuoteColumnType (StringType _) = True
+      isQuoteColumnType  _ = False
+      quoteField = map isQuoteColumnType $ columnTypes sheet
+      quoteLine fields = processedFields
+        where
+          zippedLine = zip fields quoteField
+          quotePair (field, True) = "\"" ++ field ++ "\""
+          quotePair (field, False) = field
+          processedFields = map quotePair zippedLine
+      allLines = (maybeToList (mbHeadline sheet)) ++ (map quoteLine (cells sheet))
+      parsedLines = map fieldsToCsvLine allLines
+      res = unlines parsedLines
+
 -------------------------------------- Main ------------------------------------
 
-handleText :: MulitLine -> MulitLine
-handleText text = res
+handleText :: MulitLine -> Config -> MulitLine
+handleText text conf = res
   where
     sheet = readSheet text
-    res = toCsv sheet
+    res = if code conf
+      then toCsv sheet
+      else toCode sheet
 

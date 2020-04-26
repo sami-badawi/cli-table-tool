@@ -36,7 +36,7 @@ sheet1 :: Sheet
 sheet1 = Sheet { mbHeadline = Just ["Sentient", "count"]
     , sheetWidth = 2
     , cells = [ ["Human", "43245298"] ]
-    , columnTypes = [StringType ["Human"],StringType ["43245298"]]}
+    , columnTypes = [StringType ["Human"], IntType [43245298] ]}
 
 main :: IO ()
 main = hspec $ do
