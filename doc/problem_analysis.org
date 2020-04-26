@@ -1,16 +1,44 @@
 #+OPTIONS: ^:nil
 * Problem analysis
   
-* How to store potential columns 
+* TODO How to store potential columns [1/1][100%]
 
 So a column could be having different types.
 
 Right now it can be either string, int or double.
 
-** Representing different types
+** DONE [ ] Representing different types
+   CLOSED: [2020-04-25 Sat 21:59]
 
 How can I represent this since Haskell is not super good at dynamic constructs?
 
 I could have that my enum types are parametric.
+
+I had to give the seperate types since the inner types are different.
+
+
+* TODO Extending program with option [0/4][0%]
+
+** TODO Adding options parsing
+
+What shou
+
+** TODO Output to programmer mode
+
+** TODO Option to do percentage for all numerical
+
+** TODO Option to do percentage for one
+
+* Needed option 
+
+I think that what I need is pretty simple.
+
+  - -c for code
+  - -p for percentage
+  - -a for percentage all
+
+* Option parsing
+
+I like the applicative parser that I was using. But maybe I do not need something this fancy.
 
 
