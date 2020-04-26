@@ -82,13 +82,26 @@ toCode sheet = res
       parsedLines = map fieldsToCsvLine allLines
       res = unlines parsedLines
 
+toQuotedCsv :: Sheet -> MulitLine
+toQuotedCsv sheet = res
+    where
+      quoteLine = map quoteCell
+      allLines = (maybeToList (mbHeadline sheet)) ++ (cells sheet)
+      allQuotedLines = map quoteLine allLines
+      parsedLines = map fieldsToCsvLine allQuotedLines
+      res = unlines parsedLines
+
 -------------------------------------- Main ------------------------------------
 
 handleText :: MulitLine -> Config -> MulitLine
 handleText text conf = res
   where
     sheet = readSheet text
-    res = if code conf
+    codeMode = code conf
+    allQuoteMode = quote conf
+    res = if codeMode
       then toCode sheet
-      else toCsv sheet
+      else if allQuoteMode
+        then toQuotedCsv sheet
+        else toCsv sheet 
 
