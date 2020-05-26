@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.31.2.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 92b2caefe71a441b7f68a8594f938f1a96c56f1a9f3109fc60f4338ed2c2f6e8
+-- hash: c74bc05e0a76dba6d847175958d9f022e9ff99b505e1f8eec104a987519af956
 
 name:           cli-table-tool
 version:        0.1.0.0
@@ -27,19 +27,23 @@ source-repository head
 
 library
   exposed-modules:
-      SchemaLib 
-    , Sheet
+      SchemaLib
+      Sheet
+  other-modules:
+      Paths_cli_table_tool
   hs-source-dirs:
       src
   build-depends:
       base >=4.7 && <5
+    , optparse-applicative
     , split
     , text
-    , optparse-applicative
   default-language: Haskell2010
 
 executable cli-table-tool
   main-is: Main.hs
+  other-modules:
+      Paths_cli_table_tool
   hs-source-dirs:
       app
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -47,11 +51,15 @@ executable cli-table-tool
       base >=4.7 && <5
     , cli-table-tool
     , optparse-applicative
+    , split
+    , text
   default-language: Haskell2010
 
 test-suite cli-table-tool-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
+  other-modules:
+      Paths_cli_table_tool
   hs-source-dirs:
       test
   ghc-options: -threaded -rtsopts -with-rtsopts=-N
@@ -59,4 +67,7 @@ test-suite cli-table-tool-test
       base >=4.7 && <5
     , cli-table-tool
     , hspec
- default-language: Haskell2010
+    , optparse-applicative
+    , split
+    , text
+  default-language: Haskell2010
