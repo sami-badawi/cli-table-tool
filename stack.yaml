@@ -3,3 +3,7 @@ resolver: lts-15.5
 
 packages:
 - .
+
+nix:
+    enable: true
+    packages: [glpk, pcre]
